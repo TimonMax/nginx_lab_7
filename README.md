@@ -1,4 +1,4 @@
-# Лабораторная работа №6: Работа с ClickHouse через PHP и Docker
+# Лабораторная работа №7: Асинхронная обработка аналитических данных через RabbitMQ
 
 
 ## 👩‍💻 Автор
@@ -8,13 +8,9 @@
 ---
 
 ## 📌 Описание задания
-1. Изучить работу с нереляционной базой данных ClickHouse.
-2. Научиться отправлять SQL-запросы через HTTP API с помощью Guzzle.
-3. Создать таблицу для аналитических данных.
-4. Сохранять и инициализировать тестовые данные в ClickHouse.
-5. Выводить агрегированную статистику на странице.
-6. Использовать классы PHP для работы с ClickHouse.
-7. Работать с Docker-контейнерами: nginx, PHP-FPM и ClickHouse.
+1. Научиться работать с очередями сообщений и реализовывать асинхронную обработку данных в PHP.
+2. Познакомиться с интеграцией брокеров сообщений RabbitMQ через Docker.
+3. Научиться создавать producers (отправители) и consumers (обработчики) задач.
 http://localhost:8080
 
 ---
@@ -23,8 +19,8 @@ http://localhost:8080
 
 ### 1. Клонировать репозиторий
 ```bash
-git clone https://github.com/TimonMax/nginx_lab_6.git
-cd nginx_lab_6
+git clone https://github.com/TimonMax/nginx_lab_7.git
+cd nginx_lab_7
 ```
 ### 2. Запустить контейнеры Docker
 ```bash
@@ -34,12 +30,16 @@ docker-compose up -d --build
 ```bash
 http://localhost:8080
 ```
-### 4. Проверка работы ClickHouse
+### 4. Открыть панель RabbitMQ (Логин и пароль одинаковы: guest)
 ```bash
-http://localhost:8123/ping
+http://localhost:15672
+```
+### 5. Запустить worker для обработки сообщений
+```bash
+docker exec -it lab7_php php www/worker.php
 ```
 ## Содержимое проекта
-```docker-compose.yml``` — описание сервиса Nginx
+```docker-compose.yml``` — описание сервисов
 
 ```Dockerfile``` — параметры для запуска
 
@@ -53,6 +53,8 @@ http://localhost:8123/ping
 
 ```nginx/default.conf``` — файл для обработки PHP
 
-```www/Helpers/ClientFactory.php`` — фабрика
+```www/send.php` — producer: отправка сообщения в очередь RabbitMQ
 
-```www/ClickhouseExample.php``` — класс для работы с ClickHouse
+```www/worker.php``` — consumer: получение и обработка сообщений из очереди
+
+```www/QueueManager.php``` — класс для подключения к RabbitMQ и работы с очередью
