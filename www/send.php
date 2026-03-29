@@ -1,6 +1,7 @@
 <?php
-require 'vendor/autoload.php';
-require 'QueueManager.php';
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/db.php';
+require __DIR__ . '/QueueManager.php';
 
 $q = new QueueManager();
 $q->publish([
