@@ -1,0 +1,13 @@
+{
+    "name": "79211/nginx_lab_7",
+    "authors": [
+        {
+        "name": "TimonMax",
+        "email": "timonmaxu@gmail.com"
+        }
+    ],
+    "require": {
+    "php-amqplib/php-amqplib": "^3.2",
+    "nmred/kafka-php": "^0.2.0"
+    }
+}
